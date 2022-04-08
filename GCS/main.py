@@ -75,7 +75,7 @@ def update():
 
 
 
-if path.exists("reports/Flight_1052_C.csv") == False:
+if path.exists("reports/Flight_1052_C.csv" or "reports/Flight_1052_T.csv") == False:
     csv_generation.build()#to create the csv files
 
 timer = pg.QtCore.QTimer()
