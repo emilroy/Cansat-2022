@@ -29,11 +29,12 @@ caPlot.setLabel('bottom', "# of Packets")
 
 #graph to check the containers GPS LOCATION. TODO
 containerLocationGraph = pg.GraphicsLayoutWidget()
-containerLocationData = np.array(initial_array).astype(float)
+ctLatData = np.array(initial_array).astype(float)
+ctLongData = np.array(initial_array).astype(float)
 caPlot = containerLocationGraph.addPlot(title = "Location")
-containerLocationCurve = caPlot.plot(containerLocationData)
-caPlot.setLabel('left', "Altitude(m)")
-caPlot.setLabel('bottom', "# of Packets")
+containerLocationCurve = caPlot.plot(ctLatData,ctLongData)
+caPlot.setLabel('left', "Longitude")
+caPlot.setLabel('bottom', "latitude")
 
 #Container and Payload Graphs===========================================================
 
@@ -107,23 +108,26 @@ def update():
         containerAltitudeCurve.setData(containerAltitudeData)
         containerTempCurve.setData(containerTempData)
         payloadTempCurve.setData(payloadTempData)
+        containerLocationCurve.setData(ctLatData, ctLongData)
 
         containerVoltageCurve.setPos(containerPtr-120, containerPtr)
         containerAltitudeCurve.setPos(containerPtr-120, containerPtr)
         containerTempCurve.setPos(containerPtr-120, containerPtr)
         payloadTempCurve.setPos(containerPtr-120, containerPtr)
+        containerLocationCurve.setPos(containerPtr-120, containerPtr)
+
     else:
         containerVoltageCurve.setData(containerVoltageData[:containerPtr])
         containerAltitudeCurve.setData(containerAltitudeData[:containerPtr])
         containerTempCurve.setData(containerTempData[:containerPtr])
         payloadTempCurve.setData(containerTempData[:containerPtr])
+        containerLocationCurve.setData(ctLatData, ctLongData)
 
 
     #update payloads
     if p1Ptr > 119:
         payloadOrientationCurve.setData(payloadOrientationData) #TODO how to display orientation?
         p1AltitudeCurve.setData(p1AltitudeData)
-
         p1AltitudeCurve.setPos(p1Ptr-120, p1Ptr)
         payloadOrientationCurve.setPos(p1Ptr-120,p1Ptr)
     else:
@@ -131,7 +135,7 @@ def update():
 
 # given a packet, update arrays
 def update_data(packet):
-    global containerAltitudeData, containerVoltageData, containerTempData
+    global containerAltitudeData, containerVoltageData, containerTempData, ctLatData, ctLongData
     global p1AltitudeData, payloadTempData, payloadOrientationData, payloadVoltageData
     global containerPtr, p1Ptr
 
@@ -152,10 +156,18 @@ def update_data(packet):
 
             containerVoltageData[:-1] = containerVoltageData[1:]
             containerVoltageData[-1] = float(packet_args[8])
+
+            ctLatData[:-1] = ctLatData[1:]
+            ctLatData[-1] = float(packet_args[10])
+
+            ctLongData[:-1] = ctLongData[1:]
+            ctLongData[-1] = float(packet_args[11])
         else:
             containerAltitudeData[containerPtr] = float(packet_args[6])
             containerTempData[containerPtr] = float(packet_args[7])
             containerVoltageData[containerPtr] = float(packet_args[8])
+            ctLatData[containerPtr] = float(packet_args[10])
+            ctLongData[containerPtr] = float(packet_args[11])
             containerPtr += 1
 
     elif packet_args[3] == "T":

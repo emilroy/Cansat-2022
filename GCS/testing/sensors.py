@@ -46,7 +46,6 @@ def randomizeData():
     global time_h, time_m, time_s, PACKET_COUNT, MISSION_TIME
     global MODE, SP1_RELEASED, SP2_RELEASED, ALTITUDE, TEMP, VOLTAGE, GPS_TIME, GPS_LATITUDE, GPS_LONGITUDE, GPS_ALTITUDE, GPS_SATS, SOFTWARE_STATE, SP1_PACKET_COUNT, SP2_PACKET_COUNT
     global SP_ALTITUDE_1, SP_TEMP_1, SP_ROTATION_RATE_1
-    global SP_ALTITUDE_2, SP_TEMP_2, SP_ROTATION_RATE_2
 
     # set the new mission time in a sane manner
     time_s += 1
@@ -94,18 +93,12 @@ def sendContainerPacket():
     local_packet_test(telemetry)
 
 def returnPayloadPacket(num):
-    global PACKET_COUNT, SP1_PACKET_COUNT, SP2_PACKET_COUNT
+    global PACKET_COUNT, SP1_PACKET_COUNT
     PACKET_COUNT += 1
     if num == 1:
         SP1_PACKET_COUNT += 1
         telemetry = (
-            str(TEAM_ID) + "," + MISSION_TIME + "," + str(PACKET_COUNT) + "," + "S1" + "," + str(SP_ALTITUDE_1) + "," + str(SP_TEMP_1) + "," + str(SP_ROTATION_RATE_1)
-        )
-        return telemetry
-    else:
-        SP2_PACKET_COUNT += 1
-        telemetry = (
-            str(TEAM_ID) + "," + MISSION_TIME + "," + str(PACKET_COUNT) + "," + "S2" + "," + str(SP_ALTITUDE_2) + "," + str(SP_TEMP_2) + "," + str(SP_ROTATION_RATE_2)
+            str(TEAM_ID) + "," + MISSION_TIME + "," + str(PACKET_COUNT) + "," + "T" + "," + str(SP_ALTITUDE_1) + "," + str(SP_TEMP_1) + "," + str(SP_ROTATION_RATE_1)
         )
         return telemetry
 
