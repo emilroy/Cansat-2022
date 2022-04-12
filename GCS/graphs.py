@@ -4,9 +4,10 @@
 
 This file contains the Graphs and States widgets.
 """
-from  PyQt5.QtWidgets import QLabel, QPlainTextEdit, QLineEdit, QGridLayout, QVBoxLayout
+from  PyQt5.QtWidgets import QLabel, QPlainTextEdit, QLineEdit, QGridLayout, QVBoxLayout, QWidget
 from PyQt5.QtCore import Qt
 import pyqtgraph as pg
+import compassWidget
 import states
 import simulation as sim
 import numpy as np
@@ -76,15 +77,17 @@ payloadOrientationCurve = caPlot.plot(payloadOrientationData)
 caPlot.setLabel('left', "Orientation(°)")
 caPlot.setLabel('bottom', "# of Packets")
 
+camOrientationData = 0 
 
 def build():
     layout = QGridLayout()
     pay1Widget: QVBoxLayout = states.buildPay1Layout()
     conWidget: QVBoxLayout = states.buildContainerLayout()
+    compWidget: QVBoxLayout = compassWidget.build()
     layout.addLayout(pay1Widget, 0, 0)
     layout.addWidget(payload1AltitudeGraph, 0, 1)
     layout.addWidget(containerAltitudeGraph, 0, 2)
-    layout.addWidget(payloadOrientationGraph, 0, 3)
+    layout.addLayout(compWidget, 0, 3)
 
     layout.setRowMinimumHeight(2, 10)#adds spacing between payloads and container
     #add bottom row
@@ -103,6 +106,8 @@ p1Ptr = 0
 # ie setData setPos functions
 def update():
     # update container
+    compassWidget.spinBox.setValue(camOrientationData)
+
     if containerPtr > 119:
         containerVoltageCurve.setData(containerVoltageData)
         containerAltitudeCurve.setData(containerAltitudeData)
@@ -123,7 +128,6 @@ def update():
         payloadTempCurve.setData(containerTempData[:containerPtr])
         containerLocationCurve.setData(ctLatData, ctLongData)
 
-
     #update payloads
     if p1Ptr > 119:
         payloadOrientationCurve.setData(payloadOrientationData) #TODO how to display orientation?
@@ -136,7 +140,7 @@ def update():
 # given a packet, update arrays
 def update_data(packet):
     global containerAltitudeData, containerVoltageData, containerTempData, ctLatData, ctLongData
-    global p1AltitudeData, payloadTempData, payloadOrientationData, payloadVoltageData
+    global p1AltitudeData, payloadTempData, camOrientationData, payloadVoltageData
     global containerPtr, p1Ptr
 
     # send packet to states widget
@@ -171,6 +175,7 @@ def update_data(packet):
             containerPtr += 1
 
     elif packet_args[3] == "T":
+
         if p1Ptr > 119:
             p1Ptr += 1
             p1AltitudeData[:-1] = p1AltitudeData[1:]
@@ -186,5 +191,7 @@ def update_data(packet):
             payloadTempData[p1Ptr] = float(packet_args[5])
             payloadVoltageData[containerPtr] = float(packet_args[6])
             p1Ptr += 1
+
+        #compassWidget.spinBox.setAngle() way to update compass angle
     else:
         print("GRAPH ERR: invalid packet")
