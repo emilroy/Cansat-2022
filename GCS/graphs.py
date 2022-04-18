@@ -36,6 +36,7 @@ caPlot = containerLocationGraph.addPlot(title = "Location")
 containerLocationCurve = caPlot.plot(ctLatData,ctLongData)
 caPlot.setLabel('left', "Longitude")
 caPlot.setLabel('bottom', "latitude")
+caPlot.showGrid(x = True, y = True)
 
 #Container and Payload Graphs===========================================================
 
@@ -163,7 +164,6 @@ def update_data(packet):
 
             ctLatData[:-1] = ctLatData[1:]
             ctLatData[-1] = float(packet_args[10])
-
             ctLongData[:-1] = ctLongData[1:]
             ctLongData[-1] = float(packet_args[11])
         else:

@@ -18,7 +18,6 @@ PACKET_COUNT = 0
 # container packet info
 MODE = "F"                          # const for now
 SP1_RELEASED = "N"
-SP2_RELEASED = "N"
 ALTITUDE = 0.0
 TEMP = 30.0
 VOLTAGE = 9.00
@@ -29,18 +28,12 @@ GPS_ALTITUDE = 0.1
 GPS_SATS = 0
 SOFTWARE_STATE = "LAUNCH_WAIT"
 SP1_PACKET_COUNT = 0
-SP2_PACKET_COUNT = 0
 CMD_ECHO = "CXON"                    # const for now
 
 # SP1 packet info
 SP_ALTITUDE_1 = 700.0
 SP_TEMP_1 = 25.0
 SP_ROTATION_RATE_1 = 0
-
-# SP2 packet info
-SP_ALTITUDE_2 = 700.0
-SP_TEMP_2 = 25.0
-SP_ROTATION_RATE_2 = 0
 
 def randomizeData():
     global time_h, time_m, time_s, PACKET_COUNT, MISSION_TIME
@@ -61,7 +54,6 @@ def randomizeData():
 
     # randomize data
     SP1_RELEASED = random.choice(["N", "R"])
-    SP2_RELEASED = random.choice(["N", "R"])
     ALTITUDE += random.randint(-5, 5)
     TEMP += random.randint(-3, 3)
     VOLTAGE += random.randint(-1, 1)
@@ -73,21 +65,18 @@ def randomizeData():
     SOFTWARE_STATE = random.choice(["LAUNCH_WAIT", "ASCENT", "DESCENT", "LANDED"]) # incomplete list but these are the only ones we track
 
     SP_ALTITUDE_1 += random.randint(-10, 2)
-    SP_ALTITUDE_2 += random.randint(-10, 2)
 
     SP_TEMP_1 += random.randint(-3, 3)
-    SP_TEMP_2 += random.randint(-3, 3)
 
     SP_ROTATION_RATE_1 += random.randint(-600, 600)
-    SP_ROTATION_RATE_2 += random.randint(-600, 600)
 
 
 def sendContainerPacket():
     global PACKET_COUNT
     PACKET_COUNT += 1
     telemetry = (
-        str(TEAM_ID) + "," + MISSION_TIME + "," + str(PACKET_COUNT) + "," + "C" + "," + MODE + "," + SP1_RELEASED + "," + SP2_RELEASED + "," + str(ALTITUDE) + "," + str(TEMP) + "," + str(VOLTAGE) + "," +
-        GPS_TIME + "," + str(GPS_LATITUDE) + "," + str(GPS_LONGITUDE) + "," + str(GPS_ALTITUDE) + "," + str(GPS_SATS) + "," + SOFTWARE_STATE + "," + str(SP1_PACKET_COUNT) + "," + str(SP2_PACKET_COUNT) + "," +
+        str(TEAM_ID) + "," + MISSION_TIME + "," + str(PACKET_COUNT) + "," + "C" + "," + MODE + "," + SP1_RELEASED + "," + str(ALTITUDE) + "," + str(TEMP) + "," + str(VOLTAGE) + "," +
+        GPS_TIME + "," + str(GPS_LATITUDE) + "," + str(GPS_LONGITUDE) + "," + str(GPS_ALTITUDE) + "," + str(GPS_SATS) + "," + SOFTWARE_STATE + "," + str(SP1_PACKET_COUNT) + "," +
         CMD_ECHO
     )
     local_packet_test(telemetry)
