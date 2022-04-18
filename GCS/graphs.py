@@ -120,7 +120,7 @@ def update():
         containerAltitudeCurve.setPos(containerPtr-120, containerPtr)
         containerTempCurve.setPos(containerPtr-120, containerPtr)
         payloadTempCurve.setPos(containerPtr-120, containerPtr)
-        containerLocationCurve.setPos(containerPtr-120, containerPtr)
+        containerLocationCurve.setPos(containerPtr-120, containerPtr) #have feeling gotta setpos by data not ctPtr
 
     else:
         containerVoltageCurve.setData(containerVoltageData[:containerPtr])
@@ -131,10 +131,8 @@ def update():
 
     #update payloads
     if p1Ptr > 119:
-        payloadOrientationCurve.setData(payloadOrientationData) #TODO how to display orientation?
         p1AltitudeCurve.setData(p1AltitudeData)
         p1AltitudeCurve.setPos(p1Ptr-120, p1Ptr)
-        payloadOrientationCurve.setPos(p1Ptr-120,p1Ptr)
     else:
         p1AltitudeCurve.setData(p1AltitudeData[:p1Ptr])
 

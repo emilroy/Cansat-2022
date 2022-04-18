@@ -13,6 +13,6 @@ def callback(message):
 device.add_data_received_callback(callback)
 remote = RemoteXBeeDevice(device,
             XBee64BitAddress.from_hex_string("13A200415CCC25"))
-device.send_data(remote, "CMD,SIMP,3226,15151515\n")
+device.send_data(remote, "CMD,SIMP,1025,15151515\n")
 while True:
     pass
