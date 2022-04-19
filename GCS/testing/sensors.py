@@ -34,11 +34,12 @@ CMD_ECHO = "CXON"                    # const for now
 SP_ALTITUDE_1 = 700.0
 SP_TEMP_1 = 25.0
 SP_ROTATION_RATE_1 = 0
+SP_VOLTAGE = 0
 
 def randomizeData():
     global time_h, time_m, time_s, PACKET_COUNT, MISSION_TIME
-    global MODE, SP1_RELEASED, SP2_RELEASED, ALTITUDE, TEMP, VOLTAGE, GPS_TIME, GPS_LATITUDE, GPS_LONGITUDE, GPS_ALTITUDE, GPS_SATS, SOFTWARE_STATE, SP1_PACKET_COUNT, SP2_PACKET_COUNT
-    global SP_ALTITUDE_1, SP_TEMP_1, SP_ROTATION_RATE_1
+    global MODE, SP1_RELEASED, ALTITUDE, TEMP, VOLTAGE, GPS_TIME, GPS_LATITUDE, GPS_LONGITUDE, GPS_ALTITUDE, GPS_SATS, SOFTWARE_STATE, SP1_PACKET_COUNT
+    global SP_ALTITUDE_1, SP_TEMP_1, SP_ROTATION_RATE_1, SP_VOLTAGE
 
     # set the new mission time in a sane manner
     time_s += 1
@@ -70,6 +71,8 @@ def randomizeData():
 
     SP_ROTATION_RATE_1 += random.randint(-600, 600)
 
+    SP_VOLTAGE += random.randint(-10, 2)
+
 
 def sendContainerPacket():
     global PACKET_COUNT
@@ -87,7 +90,7 @@ def returnPayloadPacket(num):
     if num == 1:
         SP1_PACKET_COUNT += 1
         telemetry = (
-            str(TEAM_ID) + "," + MISSION_TIME + "," + str(PACKET_COUNT) + "," + "T" + "," + str(SP_ALTITUDE_1) + "," + str(SP_TEMP_1) + "," + str(SP_ROTATION_RATE_1)
+            str(TEAM_ID) + "," + MISSION_TIME + "," + str(PACKET_COUNT) + "," + "T" + "," + str(SP_ALTITUDE_1) + "," + str(SP_TEMP_1) + "," + str(SP_VOLTAGE)
         )
         return telemetry
 
