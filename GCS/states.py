@@ -106,17 +106,14 @@ def updateContainerState(state):
         containerState.setText("State: Landed")
         containerState.setStyleSheet("color: purple")
 
-def update_packet_count(packetCount, sp1PacketCount, sp2PacketCount):
+def update_packet_count(packetCount, sp1PacketCount):
     # update variables
     global pay1ValidPackets, conValidPackets
-    if packetCount + sp1PacketCount + sp2PacketCount == -3:
+    if packetCount + sp1PacketCount == -2:
         pay1ValidPackets += 1
-    elif packetCount + sp1PacketCount + sp2PacketCount == -6:
-        pay2ValidPackets += 1
     else:
         pay1ValidPackets = sp1PacketCount
-        pay2ValidPackets = sp2PacketCount
-        conValidPackets = packetCount - sp1PacketCount - sp2PacketCount
+        conValidPackets = packetCount - sp1PacketCount
 
     # update labels
     pay1ValidPacketLabel.setText("Valid Packets: " + str(pay1ValidPackets))
@@ -141,12 +138,12 @@ def update_state(packet):
     if packet_args[3] == "C":
         # update states
         updatePayload1State(packet_args[5])
-        updateContainerState(packet_args[15])
+        updateContainerState(packet_args[14])
 
         # update gps information
-        update_gps(packet_args[10], packet_args[11], packet_args[12], packet_args[13], packet_args[14])
+        update_gps(packet_args[9], packet_args[10], packet_args[11], packet_args[12], packet_args[13])
 
         # next, update packet counts regardless of type of packet
-        update_packet_count(int(packet_args[2]), int(packet_args[16]), int(packet_args[17]))
+        update_packet_count(int(packet_args[2]), int(packet_args[15]))
     elif packet_args[3] == "T":
-        update_packet_count(-1, -1, -1)
+        update_packet_count(-1, -1)
