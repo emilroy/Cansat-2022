@@ -1,5 +1,5 @@
 # referenced from the #pyqt channel on Freenode, by epifanio
-# Co-Author: Emil R.
+# Remixed By: Emil R.
 #Description: Compass widget to help represent what direction the payload camera is facing
 
 from PyQt5.QtCore import pyqtProperty, pyqtSignal, QPoint, QSize, pyqtSlot, Qt

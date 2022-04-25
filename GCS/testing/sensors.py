@@ -1,6 +1,6 @@
 """
 @file   sensors.py
-@author Joshua Tenorio
+@author Joshua Tenorio, Emil Roy
 
 Generate random data to send to GCS
 """
@@ -8,7 +8,7 @@ import random
 from xbee import local_packet_test
 
 # common packet info
-TEAM_ID = 3226
+TEAM_ID = 1052
 time_h = 0
 time_m = 0
 time_s = 0

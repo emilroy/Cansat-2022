@@ -4,6 +4,7 @@
 
 Implementation for processing data to MQTT broker for live-remote viewing of data
 """
+# to test if working, go to http://cansat.info/plot.html
 import paho.mqtt.client as mqtt
 client = mqtt.Client()
 def setup() :

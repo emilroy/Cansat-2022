@@ -124,11 +124,12 @@ def update_gps(time, lat, lon, alt, sats):
     gpsTime = time
     gpsLat = lat
     gpsLon = lon
-    gpsAlt = alt
+    gpsAlt = alt[:6]
     gpsSats = sats
 
     gpsTimeLabel.setText("GPS Time (UTC): " + gpsTime)
     gpsCoordLabel.setText("GPS Coords: " + str(gpsLat) + ", " + str(gpsLon))
+    print(type(gpsAlt))
     gpsAltLabel.setText("GPS Altitude (m): " + str(gpsAlt))
     gpsSatsLabel.setText(str(gpsSats) + " GPS satellites tracking Container")
 
