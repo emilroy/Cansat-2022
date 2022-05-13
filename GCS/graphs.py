@@ -50,7 +50,7 @@ cvPlot.addLegend()
 pen = pg.mkPen(color='r')
 containerVoltageCurve = cvPlot.plot(containerVoltageData, name="Container Voltage", pen=pen, symbolBrush=('r'))
 pen = pg.mkPen(color='b')
-payloadVoltageCurve = cvPlot.plot(payloadVoltageData, name="Payload Temperature", pen=pen, symbolBrush=('b'))
+payloadVoltageCurve = cvPlot.plot(payloadVoltageData, name="Payload Voltage", pen=pen, symbolBrush=('b'))
 cvPlot.setLabel('left', "Volts(V)")
 cvPlot.setLabel('bottom', "# of Packets")
 
